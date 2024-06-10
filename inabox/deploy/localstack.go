@@ -47,6 +47,10 @@ func StartDockertestWithLocalstackContainer(localStackPort string) (*dockertest.
 			fmt.Sprintf("GATEWAY_LISTEN=0.0.0.0:%s", localStackPort),
 			fmt.Sprintf("LOCALSTACK_HOST=localhost.localstack.cloud:%s", localStackPort),
 		},
+		// Make this container runs with rootless docker setup on EC2 instance
+		Mounts: []string{
+			"/run/user/1000/docker.sock:/var/run/docker.sock",
+		},
 	}, func(config *docker.HostConfig) {
 		// set AutoRemove to true so that stopped container goes away by itself
 		config.AutoRemove = true

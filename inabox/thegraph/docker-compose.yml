@@ -13,7 +13,10 @@ services:
       postgres:
         condition: service_healthy
     extra_hosts:
-      - host.docker.internal:host-gateway
+      # - host.docker.internal:host-gateway
+      # In docker rootless mode, we can't use host-gateway as normal.
+      # Simply use the host IP address to connect the services running on the host.
+      - host.docker.internal:172.31.19.91
     environment:
       postgres_host: postgres
       postgres_user: graph-node
